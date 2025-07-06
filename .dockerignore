@@ -1,0 +1,25 @@
+# Git and VS Code
+.git/
+.gitignore
+.vscode/
+
+# Virtual Environment
+venv/
+.venv/
+
+# Python cache and local files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+.DS_Store
+
+# Notebooks and data are not needed in the final production image
+notebooks/
+data/
+
+# DVC and Test files
+.dvc/
+dvc_storage/
+tests/
