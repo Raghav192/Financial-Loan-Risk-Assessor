@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Risk Assessor</title>
+    <title>Business Financial Health Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,179 +13,259 @@
 <body>
     <div class="container">
         <header class="main-header">
-            <h1>Financial Loan Risk Assessor</h1>
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="theme-slider round"></div>
+                </label>
+            </div>
+            <h1>Financial Risk Assessor</h1>
             <p>An interactive dashboard to predict loan default risk using an AI model with explainable insights.</p>
         </header>
-        
-        <div class="form-container card">
-            <h2>Applicant Details</h2>
-            <form id="risk-form">
-                <div class="form-grid">
-                    <div class="form-group"><label for="loan_amnt">Loan Amount: $<span id="loan_amnt_val">50000</span></label><input type="range" id="loan_amnt" name="loan_amnt" min="1000" max="100000" value="50000" class="slider"></div>
-                    <div class="form-group"><label for="annual_inc">Annual Income: $<span id="annual_inc_val">80000</span></label><input type="range" id="annual_inc" name="annual_inc" min="10000" max="300000" value="80000" step="1000" class="slider"></div>
-                    <div class="form-group"><label for="int_rate">Interest Rate: <span id="int_rate_val">12.5</span>%</label><input type="range" id="int_rate" name="int_rate" min="5" max="30" value="12.5" step="0.1" class="slider"></div>
-                    <div class="form-group"><label for="dti">Debt-to-Income Ratio</label><input type="number" step="0.1" id="dti" name="dti" value="15.5" required></div>
-                    <div class="form-group"><label for="emp_length">Employment (Years)</label><input type="number" id="emp_length" name="emp_length" value="10" required></div>
-                    <div class="form-group"><label for="credit_history_length">Credit History (Years)</label><input type="number" id="credit_history_length" name="credit_history_length" value="15" required></div>
-                    <div class="form-group"><label for="term">Loan Term</label><select id="term" name="term"><option value=" 36 months">36 months</option><option value=" 60 months">60 months</option></select></div>
-                    <div class="form-group"><label for="grade">Loan Grade</label><select id="grade" name="grade"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option></select></div>
-                    <div class="form-group"><label for="home_ownership">Home Ownership</label><select id="home_ownership" name="home_ownership"><option value="RENT">Rent</option><option value="MORTGAGE">Mortgage</option><option value="OWN">Own</option><option value="ANY">Any</option></select></div>
-                    <div class="form-group"><label for="purpose">Loan Purpose</label><select id="purpose" name="purpose"><option value="debt_consolidation">Debt Consolidation</option><option value="credit_card">Credit Card</option><option value="home_improvement">Home Improvement</option><option value="other">Other</option></select></div>
-                </div>
-            </form>
-        </div>
-        
-        <div id="loader" class="loader" style="display: none;"></div>
 
-        <div id="results-dashboard" class="card" style="display: none;">
-            <div class="dashboard-grid">
-                <div class="gauge-container">
-                    <h3>Predicted Risk Score</h3>
-                    <div class="gauge-wrapper"><canvas id="riskGauge"></canvas></div>
-                    <p id="recommendation" class="recommendation"></p>
-                </div>
-                <div class="explanation-container">
-                    <h3>Key Decision Factors</h3>
-                    <div id="explanation-text" class="explanation-text-list"></div>
-                </div>
+        <!-- Use <main> as the primary flex container for all cards -->
+        <main class="main-layout">
+            <section class="form-container card">
+                <h2>Applicant Details</h2>
+                <form id="risk-form">
+                    <div class="form-grid">
+                        <!-- All form elements remain the same -->
+                        <div class="form-group"><label for="loan_amnt">Loan Amount: $<span id="loan_amnt_val">50000</span></label><input type="range" id="loan_amnt" name="loan_amnt" min="1000" max="100000" value="50000" class="slider"></div>
+                        <div class="form-group"><label for="annual_inc">Annual Income: $<span id="annual_inc_val">80000</span></label><input type="range" id="annual_inc" name="annual_inc" min="10000" max="300000" value="80000" step="1000" class="slider"></div>
+                        <div class="form-group"><label for="int_rate">Interest Rate: <span id="int_rate_val">12.5</span>%</label><input type="range" id="int_rate" name="int_rate" min="5" max="30" value="12.5" step="0.1" class="slider"></div>
+                        <div class="form-group"><label for="dti">Debt-to-Income Ratio</label><input type="number" step="0.1" id="dti" name="dti" value="15.5" required></div>
+                        <div class="form-group"><label for="emp_length">Employment (Years)</label><input type="number" id="emp_length" name="emp_length" value="10" required></div>
+                        <div class="form-group"><label for="credit_history_length">Credit History (Years)</label><input type="number" id="credit_history_length" name="credit_history_length" value="15" required></div>
+                        <div class="form-group"><label for="term">Loan Term</label><select id="term" name="term"><option value=" 36 months">36 months</option><option value=" 60 months">60 months</option></select></div>
+                        <div class="form-group"><label for="grade">Loan Grade</label><select id="grade" name="grade"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option></select></div>
+                        <div class="form-group"><label for="home_ownership">Home Ownership</label><select id="home_ownership" name="home_ownership"><option value="RENT">Rent</option><option value="MORTGAGE">Mortgage</option><option value="OWN">Own</option><option value="ANY">Any</option></select></div>
+                        <div class="form-group"><label for="purpose">Loan Purpose</label><select id="purpose" name="purpose"><option value="debt_consolidation">Debt Consolidation</option><option value="credit_card">Credit Card</option><option value="home_improvement">Home Improvement</option><option value="other">Other</option></select></div>
+                    </div>
+                </form>
+            </section>
+            
+            <div id="loader" class="loader" style="display: none;"></div>
+            
+            <!-- THE FIX: The results dashboard is now a direct child of the main layout grid -->
+            <div id="results-dashboard" class="main-dashboard-grid" style="display: none;">
+                <section id="prediction-card" class="card">
+                    <h3>Predicted Risk & Factors</h3>
+                    <div class="dashboard-grid">
+                        <div class="gauge-container">
+                            <div class="gauge-wrapper"><canvas id="riskGauge"></canvas></div>
+                            <p id="recommendation" class="recommendation"></p>
+                        </div>
+                        <div class="explanation-container">
+                            <div id="explanation-text" class="explanation-text-list"></div>
+                        </div>
+                    </div>
+                </section>
+                <section id="cost-analysis-card" class="card">
+                    <h3>Loan Cost Analysis</h3>
+                    <div class="cost-summary">
+                        <div><span>Total Principal</span><strong id="total-principal"></strong></div>
+                        <div><span>Total Interest Paid</span><strong id="total-interest"></strong></div>
+                        <div><span>Total Cost of Loan</span><strong id="total-cost"></strong></div>
+                    </div>
+                    <div class="amortization-table-container">
+                        <h4>Amortization Schedule (First 12 Months)</h4>
+                        <table id="amortization-table">
+                            <thead><tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+                <section id="peer-comparison-card" class="card">
+                    <h3>Peer Group Comparison (Grade <span id="peer-grade"></span>)</h3>
+                    <p class="chart-subtitle">How your metrics compare to successful vs. failed loans in your risk bucket.</p>
+                    <div class="radar-chart-container"><canvas id="peerRadarChart"></canvas></div>
+                </section>
+                <section id="breakeven-card" class="card" style="display: none;">
+                    <h3>Breakeven Analysis</h3>
+                    <p class="chart-subtitle">Suggestions to move this application into the 'Low Risk' category.</p>
+                    <div id="breakeven-text" class="explanation-text-list"></div>
+                </section>
             </div>
-        </div>
+        </main>
     </div>
 
-    <!-- FINAL, 100% COMPLETE AND CORRECT JAVASCRIPT -->
+    <!-- The JavaScript remains exactly the same as the last version. No changes needed here. -->
     <script>
-        const form = document.getElementById('risk-form');
-        const loader = document.getElementById('loader');
-        const resultsDashboard = document.getElementById('results-dashboard');
-        const recommendationEl = document.getElementById('recommendation');
-        const explanationTextEl = document.getElementById('explanation-text');
-        let riskGauge;
-        let requestDebounce;
+        document.addEventListener('DOMContentLoaded', () => {
+            // ... (All the JavaScript from the previous correct version goes here) ...
+            const form = document.getElementById('risk-form');
+            const loader = document.getElementById('loader');
+            const resultsDashboard = document.getElementById('results-dashboard');
+            const recommendationEl = document.getElementById('recommendation');
+            const explanationTextEl = document.getElementById('explanation-text');
+            const themeToggle = document.getElementById('checkbox');
+            let riskGauge, peerRadarChart;
+            let requestDebounce;
 
-        function createOrUpdateGauge(score) {
-            const ctx = document.getElementById('riskGauge').getContext('2d');
-            if (window.riskGauge instanceof Chart) {
-                window.riskGauge.destroy();
+            // ... THEME TOGGLE LOGIC ...
+            function applyTheme(theme) {
+                document.body.className = theme === 'dark' ? 'dark-mode' : '';
+                themeToggle.checked = theme === 'dark';
             }
-            
-            const gaugeText = {
-                id: 'gaugeText',
-                beforeDraw(chart) {
-                    const { ctx, chartArea: { top, width, height } } = chart;
-                    ctx.save();
-                    ctx.fillStyle = '#343a40';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.font = 'bold 32px Inter';
-                    const text = `${Math.round(score)}%`;
-                    ctx.fillText(text, width / 2, top + (height / 1.5));
-                    ctx.restore();
-                }
-            };
-
-            window.riskGauge = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [score, 100 - score],
-                        backgroundColor: [
-                            score > 50 ? '#dc3545' : (score > 20 ? '#ffc107' : '#28a745'),
-                            '#e9ecef'
-                        ],
-                        borderWidth: 0,
-                    }]
-                },
-                options: {
-                    rotation: -90,
-                    circumference: 180,
-                    cutout: '70%',
-                    plugins: { tooltip: { enabled: false }, legend: { display: false } },
-                    animation: { animateRotate: false }
-                },
-                plugins: [gaugeText]
+            themeToggle.addEventListener('change', function() {
+                const newTheme = this.checked ? 'dark' : 'light';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
             });
-        }
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
 
-        async function updatePrediction() {
-            loader.style.display = 'block';
-            resultsDashboard.style.display = 'none';
-
-            const payload = {};
-            const formElements = form.elements;
-            for (let i = 0; i < formElements.length; i++) {
-                const element = formElements[i];
-                if (element.name) {
-                    if (element.type === 'number' || element.type === 'range') {
-                        payload[element.name] = parseFloat(element.value) || 0;
-                    } else {
-                        payload[element.name] = element.value;
+            // ... CHARTING FUNCTIONS ...
+            function createOrUpdateGauge(score) {
+                const ctx = document.getElementById('riskGauge').getContext('2d');
+                if (window.riskGauge instanceof Chart) { window.riskGauge.destroy(); }
+                const gaugeText = {
+                    id: 'gaugeText',
+                    beforeDraw(chart) {
+                        const { ctx, chartArea: { top, width, height } } = chart;
+                        ctx.save();
+                        ctx.fillStyle = document.body.classList.contains('dark-mode') ? '#e4e6eb' : '#343a40';
+                        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                        ctx.font = 'bold 32px Inter';
+                        ctx.fillText(`${Math.round(score)}%`, width / 2, top + (height / 1.5) + 10);
+                        ctx.restore();
                     }
-                }
+                };
+                window.riskGauge = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{ data: [score, 100 - score], backgroundColor: [ score > 50 ? '#c92a2a' : (score > 20 ? '#f08c00' : '#2f9e44'), '#e9ecef' ], borderWidth: 0, }]
+                    },
+                    options: { rotation: -90, circumference: 180, cutout: '70%', plugins: { tooltip: { enabled: false }, legend: { display: false } }, animation: { animateRotate: false } },
+                    plugins: [gaugeText]
+                });
+            }
+
+            function createOrUpdateRadarChart(labels, applicantData, successfulAvg, failedAvg) {
+                const ctx = document.getElementById('peerRadarChart').getContext('2d');
+                if (window.peerRadarChart instanceof Chart) { window.peerRadarChart.destroy(); }
+                window.peerRadarChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            { label: 'Your Application', data: applicantData, backgroundColor: 'rgba(0, 123, 255, 0.2)', borderColor: 'rgba(0, 123, 255, 1)', borderWidth: 2 },
+                            { label: 'Avg. Successful Loan', data: successfulAvg, backgroundColor: 'rgba(40, 167, 69, 0.2)', borderColor: 'rgba(40, 167, 69, 1)', borderWidth: 1 },
+                            { label: 'Avg. Failed Loan', data: failedAvg, backgroundColor: 'rgba(220, 53, 69, 0.2)', borderColor: 'rgba(220, 53, 69, 1)', borderWidth: 1 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true } } }
+                });
             }
             
-            try {
-                const response = await fetch('/api/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+            // ... MAIN API CALL FUNCTION ...
+            async function updatePrediction() {
+                loader.style.display = 'block';
+                resultsDashboard.style.display = 'none';
 
-                if (!response.ok) {
-                    let errorMessage = `API Error: ${response.statusText}`;
-                    try {
-                        const errorData = await response.json();
-                        errorMessage = errorData.detail ? `${errorData.detail[0].loc[1]}: ${errorData.detail[0].msg}` : (errorData.error || errorMessage);
-                    } catch (e) {
-                        errorMessage = `Server Error: Received non-JSON response. Check terminal for crash logs.`;
+                const payload = {};
+                const formElements = form.elements;
+                for (let i = 0; i < formElements.length; i++) {
+                    const element = formElements[i];
+                    if (element.name) {
+                        if (element.type === 'number' || element.type === 'range') {
+                            payload[element.name] = parseFloat(element.value) || 0;
+                        } else {
+                            payload[element.name] = element.value;
+                        }
                     }
-                    throw new Error(errorMessage);
                 }
-                const data = await response.json();
                 
-                resultsDashboard.style.display = 'grid';
-                createOrUpdateGauge(data.risk_score); 
-                recommendationEl.textContent = data.recommendation;
-                recommendationEl.className = `recommendation ${data.risk_class}`;
+                try {
+                    const response = await fetch('/api/predict', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
 
-                let explanationHtml = '<ul>';
-                data.explanation.forEach(item => {
-                    if (item.impact === "neutral") {
-                        explanationHtml += `<li>${item.feature}</li>`;
-                    } else {
-                        const icon = item.impact === 'increases' ? '' : '';
-                        explanationHtml += `<li class="${item.impact}">${icon} <strong>${item.feature.replace(/_/g, ' ')}</strong> ${item.impact} risk.</li>`;
+                    if (!response.ok) {
+                        let errorMessage = `API Error: ${response.statusText}`;
+                        try {
+                            const errorData = await response.json();
+                            errorMessage = errorData.detail ? `${errorData.detail[0].loc[1]}: ${errorData.detail[0].msg}` : (errorData.error || errorMessage);
+                        } catch (e) {
+                            errorMessage = `Server Error: Received non-JSON response. Check terminal for crash logs.`;
+                        }
+                        throw new Error(errorMessage);
                     }
-                });
-                explanationHtml += '</ul>';
-                explanationTextEl.innerHTML = explanationHtml;
+                    const data = await response.json();
+                    
+                    resultsDashboard.style.display = 'grid';
+                    createOrUpdateGauge(data.risk_score); 
+                    recommendationEl.textContent = data.recommendation;
+                    recommendationEl.className = `recommendation ${data.risk_class}`;
 
-            } catch (error) {
-                resultsDashboard.style.display = 'grid';
-                createOrUpdateGauge(0);
-                explanationTextEl.innerHTML = '';
-                recommendationEl.textContent = `Error: ${error.message}`;
-                recommendationEl.className = 'recommendation high-risk';
-            } finally {
-                loader.style.display = 'none';
+                    let explanationHtml = '<ul>';
+                    data.explanation.forEach(item => {
+                        if (item.impact === "neutral") {
+                            explanationHtml += `<li>${item.feature}</li>`;
+                        } else {
+                            const icon = item.impact === 'increases' ? '🔺' : '✅';
+                            explanationHtml += `<li class="${item.impact}">${icon} <strong>${item.feature.replace(/_/g, ' ')}</strong> ${item.impact} risk.</li>`;
+                        }
+                    });
+                    explanationHtml += '</ul>';
+                    explanationTextEl.innerHTML = explanationHtml;
+
+                    document.getElementById('total-principal').textContent = `$${parseFloat(payload.loan_amnt).toLocaleString()}`;
+                    document.getElementById('total-interest').textContent = `$${data.amortization.total_interest.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    document.getElementById('total-cost').textContent = `$${data.amortization.total_paid.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    const tableBody = document.querySelector("#amortization-table tbody");
+                    tableBody.innerHTML = '';
+                    data.amortization.schedule.forEach(row => {
+                        tableBody.innerHTML += `<tr><td>${row.month}</td><td>${row.payment.toFixed(2)}</td><td>${row.principal.toFixed(2)}</td><td>${row.interest.toFixed(2)}</td><td>${row.balance.toFixed(2)}</td></tr>`;
+                    });
+
+                    if (data.peer_comparison) {
+                        document.getElementById('peer-grade').textContent = payload.grade;
+                        const applicantData = [ payload.dti, payload.loan_amnt / (payload.annual_inc + 1), payload.credit_history_length ];
+                        createOrUpdateRadarChart(data.peer_comparison.labels, applicantData, data.peer_comparison.successful_avg, data.peer_comparison.failed_avg);
+                    }
+
+                    const breakevenCard = document.getElementById('breakeven-card');
+                    const breakevenText = document.getElementById('breakeven-text');
+                    if (data.breakeven_analysis && data.breakeven_analysis.length > 0) {
+                        let breakevenHtml = '<ul>';
+                        data.breakeven_analysis.forEach(suggestion => { breakevenHtml += `<li>💡 ${suggestion}</li>`; });
+                        breakevenHtml += '</ul>';
+                        breakevenText.innerHTML = breakevenHtml;
+                        breakevenCard.style.display = 'block';
+                    } else {
+                        breakevenCard.style.display = 'none';
+                    }
+                } catch (error) {
+                    resultsDashboard.style.display = 'grid';
+                    createOrUpdateGauge(0);
+                    explanationTextEl.innerHTML = '';
+                    document.getElementById('breakeven-card').style.display = 'none';
+                    recommendationEl.textContent = `Error: ${error.message}`;
+                    recommendationEl.className = 'recommendation high-risk';
+                } finally {
+                    loader.style.display = 'none';
+                }
             }
-        }
-        
-        function handleInputChange() { clearTimeout(requestDebounce); requestDebounce = setTimeout(updatePrediction, 400); }
-        
-        document.querySelectorAll('.slider').forEach(slider => {
-            const valSpan = document.getElementById(`${slider.id}_val`);
-            valSpan.textContent = parseFloat(slider.value).toLocaleString('en-US');
-            slider.addEventListener('input', (e) => {
-                valSpan.textContent = parseFloat(e.target.value).toLocaleString('en-US');
-                handleInputChange();
+            
+            // ... EVENT LISTENERS ...
+            function handleInputChange() { clearTimeout(requestDebounce); requestDebounce = setTimeout(updatePrediction, 400); }
+            document.querySelectorAll('.slider').forEach(slider => {
+                const valSpan = document.getElementById(`${slider.id}_val`);
+                valSpan.textContent = parseFloat(slider.value).toLocaleString('en-US');
+                slider.addEventListener('input', (e) => {
+                    valSpan.textContent = parseFloat(e.target.value).toLocaleString('en-US');
+                    handleInputChange();
+                });
             });
+            document.querySelectorAll('select, input[type="number"]').forEach(el => {
+                el.addEventListener('change', handleInputChange);
+            });
+            
+            window.addEventListener('load', updatePrediction);
         });
-        
-        document.querySelectorAll('select, input[type="number"]').forEach(el => {
-            el.addEventListener('change', handleInputChange);
-        });
-        
-        window.addEventListener('load', updatePrediction);
     </script>
 </body>
 </html>

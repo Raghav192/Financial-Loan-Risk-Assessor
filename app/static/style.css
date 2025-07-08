@@ -1,156 +1,153 @@
+/* --- A++ Ultra POLISHED v4: Definitive Layout Fix --- */
+
+/* Step 1: Define CSS Variables for Theming */
 :root {
-    --primary-color: #007bff;
-    --primary-hover: #0056b3;
-    --background-color: #f8f9fa;
-    --card-background: #ffffff;
-    --text-color: #343a40;
+    --bg-color: #f4f7f9;
+    --card-bg: #ffffff;
+    --text-color: #212529;
     --text-muted: #6c757d;
-    --border-color: #dee2e6;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --radius: 8px;
-    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-color: #e9ecef;
+    --shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+    --primary-color: #007bff;
+    --slider-track-bg: #dee2e6;
+    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --radius: 12px;
+    --spacing: 30px;
 }
+
+body.dark-mode {
+    --bg-color: #18191a;
+    --card-bg: #242526;
+    --text-color: #e4e6eb;
+    --text-muted: #b0b3b8;
+    --border-color: #3a3b3c;
+    --shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+    --primary-color: #4dabf7;
+    --slider-track-bg: #495057;
+}
+
+/* Step 2: Base Styles & Layout */
 body {
     font-family: var(--font-family);
-    background-color: var(--background-color);
+    background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
     margin: 0;
-    padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 .container {
-    max-width: 960px;
+    max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    gap: 30px;
+    padding: 40px 20px;
 }
+
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing);
+}
+
+/* Step 3: Cleaner, Solid Card Effect */
 .card {
-    background-color: var(--card-background);
+    background: var(--card-bg);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
     padding: 25px 30px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+
+/* Step 4: Header & Dark Mode Toggle */
 .main-header {
     text-align: center;
+    position: relative;
     margin-bottom: 10px;
 }
-.main-header h1 {
-    font-weight: 700;
-    font-size: 2.25rem;
-    margin-bottom: 0.5rem;
-}
-.main-header p {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto;
-}
-.form-container h2, #results-dashboard h2, .gauge-container h3, .explanation-container h3 {
-    font-weight: 600;
-    margin-top: 0;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+.main-header h1 { font-weight: 700; font-size: 2.5rem; margin-bottom: 0.5rem; }
+.main-header p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+.theme-switch-wrapper { position: absolute; top: 0; right: 0; }
+.theme-switch { display: inline-block; height: 24px; position: relative; width: 50px; }
+.theme-switch input { display: none; }
+.theme-slider { background-color: #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; border-radius: 24px; }
+.theme-slider:before { background-color: #fff; bottom: 2px; content: ""; height: 20px; left: 2px; position: absolute; transition: .4s; width: 20px; border-radius: 50%; }
+input:checked + .theme-slider { background-color: var(--primary-color); }
+input:checked + .theme-slider:before { transform: translateX(26px); }
+
+/* Step 5: Polished Form Elements */
+.form-container h2, .card h3 {
+    font-weight: 600; font-size: 1.25rem;
+    margin-top: 0; border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px; margin-bottom: 25px;
 }
 .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 30px 25px;
 }
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: var(--text-muted);
-}
+.form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-muted); }
 input[type="number"], select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box; width: 100%; padding: 10px 12px;
+    border: 1px solid var(--border-color); background-color: var(--bg-color);
+    color: var(--text-color); border-radius: 6px;
+    font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s;
 }
 input[type="number"]:focus, select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none; border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 25%, transparent);
 }
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    background: #e9ecef;
-    outline: none;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background: var(--primary-color);
-    cursor: pointer;
-    border-radius: 50%;
-}
-.slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: var(--primary-color);
-    cursor: pointer;
-    border-radius: 50%;
-}
-.dashboard-grid {
+.slider { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; background: var(--slider-track-bg); outline: none; border-radius: 4px; transition: background 0.2s; }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; background: var(--primary-color); cursor: pointer; border-radius: 50%; transition: transform 0.2s ease; }
+.slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+
+/* Step 6: Polished Results Dashboard */
+.main-dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 30px;
-    align-items: flex-start;
+    grid-template-areas: "prediction cost" "peer peer" "breakeven breakeven";
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing);
 }
-.gauge-wrapper {
-    max-width: 250px;
-    margin: 0 auto;
-}
-.recommendation {
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: center;
-    padding: 10px;
-    border-radius: var(--radius);
-    margin-top: 20px;
-}
-.explanation-text-list ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-.explanation-text-list li {
-    margin-bottom: 12px;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.explanation-text-list li.increases {
-    color: #721c24;
-}
-.explanation-text-list li.decreases {
-    color: #155724;
-}
-.low-risk { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-.medium-risk { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
-.high-risk { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-.loader {
-    border: 5px solid #e9ecef;
-    border-top: 5px solid var(--primary-color);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin: 30px auto;
-}
+#prediction-card { grid-area: prediction; }
+#cost-analysis-card { grid-area: cost; }
+#peer-comparison-card { grid-area: peer; }
+#breakeven-card { grid-area: breakeven; }
+
+.dashboard-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; align-items: center; }
+.gauge-wrapper { max-width: 250px; margin: 0 auto; position: relative; }
+.recommendation { font-size: 1.1rem; font-weight: 600; text-align: center; padding: 10px; border-radius: var(--radius); margin-top: 20px; }
+.explanation-text-list ul { list-style-type: none; padding-left: 0; }
+.explanation-text-list li { margin-bottom: 12px; font-size: 1rem; display: flex; align-items: center; gap: 10px; }
+.explanation-text-list li strong { font-weight: 600; }
+
+.cost-summary { display: flex; justify-content: space-around; text-align: center; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+.cost-summary div span { display: block; font-size: 0.9rem; color: var(--text-muted); }
+.cost-summary div strong { font-size: 1.5rem; font-weight: 600; color: var(--primary-color); }
+.amortization-table-container { max-height: 250px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+th, td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--border-color); }
+th { font-weight: 600; position: sticky; top: 0; background: var(--card-bg); }
+.radar-chart-container { height: 350px; position: relative; }
+.chart-subtitle { text-align: center; color: var(--text-muted); margin-top: -15px; margin-bottom: 15px; font-size: 0.9rem; }
+
+.loader { border: 5px solid var(--slider-track-bg); border-top: 5px solid var(--primary-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 30px auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-@media (max-width: 768px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
+
+/* Responsive Grid Layouts */
+@media (max-width: 1200px) {
+    .form-grid { grid-template-columns: repeat(2, 1fr); }
 }
+@media (max-width: 960px) {
+    .main-dashboard-grid { grid-template-columns: 1fr; grid-template-areas: "prediction" "cost" "peer" "breakeven"; }
+}
+@media (max-width: 768px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+}
+
+/* Dark Mode Color Palettes */
+body.dark-mode .recommendation.low-risk { background-color: #1c3b23; color: #a3e9a4; border-color: #2f6f44; }
+body.dark-mode .recommendation.medium-risk { background-color: #4d380c; color: #ffd681; border-color: #856404; }
+body.dark-mode .recommendation.high-risk { background-color: #58151c; color: #f5c6cb; border-color: #721c24; }
+body.dark-mode .explanation-text-list li.increases { color: #ff8787; }
+body.dark-mode .explanation-text-list li.decreases { color: #69db7c; }
+body.dark-mode .cost-summary div strong { color: var(--primary-color); }
+body.dark-mode tbody tr:nth-child(even) { background-color: rgba(255,255,255,0.05); }
